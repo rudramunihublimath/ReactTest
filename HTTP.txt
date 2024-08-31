@@ -91,4 +91,11 @@ Test Connectivity:
 Use a command-line tool or database client to connect manually:
 psql -h localhost -U yourusername -d yourdatabase
 ----------
+Check current connections:
+SELECT COUNT(*) FROM pg_stat_activity;
 
+Increase max_connections if necessary:
+Edit postgresql.conf to adjust:
+max_connections = 200  # or any appropriate number
+
+---------
