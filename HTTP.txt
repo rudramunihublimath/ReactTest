@@ -76,3 +76,10 @@ spring.jpa.show-sql=true
 
 
 ---
+
+GRANT CONNECT ON DATABASE yourdatabase TO yourusername;
+GRANT USAGE ON SCHEMA public TO yourusername;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO yourusername;
+
+
+-----
