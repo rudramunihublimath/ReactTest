@@ -83,3 +83,12 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO yourusern
 
 
 -----
+Check PostgreSQL Service Status:
+Run the following command to check if the PostgreSQL service is running:
+sudo service postgresql status
+--
+Test Connectivity:
+Use a command-line tool or database client to connect manually:
+psql -h localhost -U yourusername -d yourdatabase
+----------
+
