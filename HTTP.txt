@@ -99,3 +99,8 @@ Edit postgresql.conf to adjust:
 max_connections = 200  # or any appropriate number
 
 ---------
+
+Packaging a React.JS Application into a Java Spring Boot Application
+https://www.youtube.com/watch?v=_CLLw3QAuOE  : React integration with Spring boot 
+
+---------
