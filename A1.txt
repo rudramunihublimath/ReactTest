@@ -1,0 +1,42 @@
+import java.util.List;
+
+public class ReferenceWrapper {
+    private List<ObjectType> Reference;
+
+    public ReferenceWrapper(List<ObjectType> reference) {
+        this.Reference = reference;
+    }
+
+    public List<ObjectType> getReference() {
+        return Reference;
+    }
+
+    public void setReference(List<ObjectType> reference) {
+        this.Reference = reference;
+    }
+}
+
+--------
+
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
+
+@RestController
+public class YourController {
+
+    @GetMapping("/your-endpoint")
+    public ReferenceWrapper getCustomResponse() {
+        // Your existing logic to fetch the list of objects
+        List<ObjectType> objectList = fetchYourObjects();
+
+        // Wrap the list in the ReferenceWrapper
+        return new ReferenceWrapper(objectList);
+    }
+
+    private List<ObjectType> fetchYourObjects() {
+        // Implement your logic to fetch the objects
+        return ...;
+    }
+}
