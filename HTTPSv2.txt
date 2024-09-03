@@ -1,0 +1,28 @@
+server.port=8443
+server.ssl.key-store=classpath:your_keystore_name.jks
+server.ssl.key-store-password=your_keystore_password
+server.ssl.key-store-type=JKS
+server.ssl.key-alias=your_alias_name
+
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+@Configuration
+@EnableWebSecurity
+@Order(1)
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .requiresChannel()
+            .anyRequest()
+            .requiresSecure();
+    }
+}
+
+
+curl -v -k https://localhost:8443
