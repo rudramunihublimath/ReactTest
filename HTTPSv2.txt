@@ -1,3 +1,10 @@
+keytool -import -alias your_alias_name -file your_certificate_file.crt -keystore your_keystore_name.jks -storepass your_keystore_password
+
+
+---
+
+
+
 server.port=8443
 server.ssl.key-store=classpath:your_keystore_name.jks
 server.ssl.key-store-password=your_keystore_password
