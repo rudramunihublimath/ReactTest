@@ -1,0 +1,103 @@
+import React, { useState } from "react";
+import axios from "axios";
+
+function DataSubmissionForm() {
+  // State to store input data
+  const [formData, setFormData] = useState({ f1: "", f2: "", f3: "" });
+  // State to store API response
+  const [responseData, setResponseData] = useState(null);
+
+  // Handle input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("/api/your-endpoint", formData);
+      setResponseData(response.data);
+    } catch (error) {
+      console.error("Error submitting data", error);
+    }
+  };
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>F1: </label>
+          <input
+            type="text"
+            name="f1"
+            value={formData.f1}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>F2: </label>
+          <input
+            type="text"
+            name="f2"
+            value={formData.f2}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>F3: </label>
+          <input
+            type="text"
+            name="f3"
+            value={formData.f3}
+            onChange={handleChange}
+          />
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+
+      {/* Render response data as a table */}
+      {responseData && (
+        <div>
+          <h3>Response Data</h3>
+          <table border="1">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              {responseData.ref.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.id}</td>
+                  <td>{item.name}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <table border="1">
+            <thead>
+              <tr>
+                <th>FID</th>
+                <th>FName</th>
+              </tr>
+            </thead>
+            <tbody>
+              {responseData.recommendation.map((item) => (
+                <tr key={item.fid}>
+                  <td>{item.fid}</td>
+                  <td>{item.fname}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default DataSubmissionForm;
