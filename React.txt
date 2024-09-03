@@ -101,3 +101,121 @@ function DataSubmissionForm() {
 }
 
 export default DataSubmissionForm;
+
+
+--------
+
+
+import React, { useState } from "react"; 
+import axios from "axios"; 
+
+function DataSubmissionForm() {
+  const [formData, setFormData] = useState({ f1: "", f2: "", f3: "" });
+  const [responseData, setResponseData] = useState(null);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault(); 
+    try {
+      const response = await axios.post("/api/your-endpoint", formData); 
+      setResponseData(response.data);
+    } catch (error) {
+      console.error("Error submitting data", error); 
+    }
+  };
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>F1: </label>
+          <input
+            type="text"
+            name="f1"
+            value={formData.f1}
+            onChange={handleChange} 
+          />
+        </div>
+        <div>
+          <label>F2: </label>
+          <input
+            type="text"
+            name="f2"
+            value={formData.f2}
+            onChange={handleChange} 
+          />
+        </div>
+        <div>
+          <label>F3: </label>
+          <input
+            type="text"
+            name="f3"
+            value={formData.f3}
+            onChange={handleChange} 
+          />
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+
+      {/* Display response data in table format if available */}
+      {responseData && (
+        <div>
+          <h3>Response Data</h3>
+
+          {/* Check if ref is defined and not empty */}
+          {responseData.ref && responseData.ref.length > 0 ? (
+            <table border="1">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                {responseData.ref.map((item) => (
+                  <tr key={item.id}>
+                    <td>{item.id}</td>
+                    <td>{item.name}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>No Ref Data Available</p>
+          )}
+
+          {/* Check if recommendation is defined and not empty */}
+          {responseData.recommendation && responseData.recommendation.length > 0 ? (
+            <table border="1">
+              <thead>
+                <tr>
+                  <th>FID</th>
+                  <th>FName</th>
+                </tr>
+              </thead>
+              <tbody>
+                {responseData.recommendation.map((item) => (
+                  <tr key={item.fid}>
+                    <td>{item.fid}</td>
+                    <td>{item.fname}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>No Recommendation Data Available</p>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default DataSubmissionForm;
