@@ -1,5 +1,6 @@
 keytool -import -alias your_alias_name -file your_certificate_file.crt -keystore your_keystore_name.jks -storepass your_keystore_password
 
+keytool -genkeypair -alias your_alias_name -keyalg RSA -keysize 2048 -validity 365 -keystore your_keystore_name.jks -storepass your_keystore_password
 
 ---
 
