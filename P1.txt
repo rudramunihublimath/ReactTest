@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+
+    environment {
+        // Securely fetch the base64-encoded password from Jenkins credentials (replace with your Jenkins credentials ID)
+        ENCODED_PWD = credentials('MY_SECRET_ENCODED_PASSWORD')
+    }
+
+    stages {
+        stage('Decode Password') {
+            steps {
+                script {
+                    // Verify the environment variable is set
+                    if (env.ENCODED_PWD) {
+                        // Decode the password using Groovy's Base64 class
+                        byte[] decodedBytes = env.ENCODED_PWD.decodeBase64()
+                        def decodedPassword = new String(decodedBytes, 'UTF-8')
+                        echo "Decoded password: ${decodedPassword}"
+                    } else {
+                        error "Environment variable 'ENCODED_PWD' is not set."
+                    }
+                }
+            }
+        }
+    }
+}
