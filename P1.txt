@@ -31,6 +31,14 @@ if (env.ENCODED_PWD) {
 def decodedPassword = sh(script: "echo ${env.ENCODED_PWD} | base64 --decode", returnStdout: true).trim()
 echo "Decoded password: ${decodedPassword}"
                     } 
-                    
+
+if (env.ENCODED_PWD) {
+                        // Clean the base64 string by removing newlines and spaces
+                        def cleanedEncodedPwd = sh(script: "echo '${env.ENCODED_PWD}' | tr -d '\\n' | tr -d ' '", returnStdout: true).trim()
+                        
+                        // Decode the base64-encoded password using a shell command
+                        def decodedPassword = sh(script: "echo ${cleanedEncodedPwd} | base64 --decode", returnStdout: true).trim()
+                        echo "Decoded password: ${decodedPassword}"
+                    }                    
 					
 ---					
