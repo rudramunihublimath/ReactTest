@@ -26,16 +26,23 @@ pipeline {
 }
 ---
 
- if (env.ENCODED_PWD) {
-                        // Remove any non-base64 characters (newlines, spaces)
+if (env.ENCODED_PWD) {
+                        // Clean the base64 string by removing newlines and spaces
                         def cleanedEncodedPwd = sh(script: "echo '${env.ENCODED_PWD}' | tr -d '\\n' | tr -d ' '", returnStdout: true).trim()
 
-                        // Check if the cleaned string is valid base64
-                        def decodedPassword = sh(script: "echo ${cleanedEncodedPwd} | base64 --decode", returnStatus: true)
+                        // Check if the string length is a multiple of 4 and pad if necessary
+                        def paddedEncodedPwd = cleanedEncodedPwd
+                        int paddingLength = cleanedEncodedPwd.length() % 4
+                        if (paddingLength != 0) {
+                            paddedEncodedPwd += '=' * (4 - paddingLength)
+                        }
+
+                        // Decode the base64-encoded password using a shell command
+                        def decodedPassword = sh(script: "echo ${paddedEncodedPwd} | base64 --decode", returnStatus: true)
                         
                         // Handle decoding status
                         if (decodedPassword != 0) {
-                            error "Base64 decoding failed: Invalid input."
+                            error "Base64 decoding failed: Invalid input. Please check the base64 string."
                         } else {
                             echo "Decoded password successfully."
                         }
