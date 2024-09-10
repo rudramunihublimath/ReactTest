@@ -26,12 +26,11 @@ pipeline {
 }
 ---
 
- // Verify the environment variable is set
-                    if (env.ENCODED_PWD) {
-                        // Use DatatypeConverter to decode the base64-encoded password
-                        def decodedBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(env.ENCODED_PWD)
-                        def decodedPassword = new String(decodedBytes, 'UTF-8')
-                        echo "Decoded password: ${decodedPassword}"
-                    }
+if (env.ENCODED_PWD) {
+                        // Decode the base64-encoded password using a shell command
+def decodedPassword = sh(script: "echo ${env.ENCODED_PWD} | base64 --decode", returnStdout: true).trim()
+echo "Decoded password: ${decodedPassword}"
+                    } 
+                    
 					
-					
+---					
