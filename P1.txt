@@ -48,3 +48,8 @@ if (env.ENCODED_PWD) {
                         }
                     } 				
 ---					
+
+runmqakm -cert -validate -db your_keystore.p12 -stashed
+runmqakm -cert -validate -db /path/to/your_keystore.p12 -pw YourPassword
+runmqakm -cert -list -db /path/to/your_keystore.p12 -pw YourPassword
+
